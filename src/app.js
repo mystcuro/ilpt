@@ -27,14 +27,11 @@ app.get('/', (req, res) => {
 
 app.post('/submit', async (req, res) => {
     try {
-        const { name, email, nid } = req.body;
-
-        // Hash name + NID using SHA-256
-        const token = crypto.createHash('sha256').update(name + nid).digest('hex');
-
-        const accounts = await web3.eth.getAccounts();
+        // Hashed name + NID using SHA-256 from Client 
+        const { token } = req.body;
 
         // Send transaction to blockchain
+        const accounts = await web3.eth.getAccounts();
         const receipt = await contractInstance.methods.storeToken(token).send({
             from: accounts[0],
             gas: 300000,
