@@ -7,37 +7,40 @@ const path = require('path');
 
 const app = express();
 
-// Read ABI and deployed contract address
-const contractJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../build/contracts/TokenStorage.json'), 'utf8'));
-const abi = contractJson.abi;
+// CHANGED: Read contract ABI and address dynamically from contract-info.json
+const contractInfoPath = path.resolve(__dirname, '../contract-info.json');
+const contractInfo = JSON.parse(fs.readFileSync(contractInfoPath, 'utf8'));
+const abi = contractInfo.abi;
+const contractAddress = contractInfo.address;
 
-// You'll need to paste your deployed contract address here after deploying
-const contractAddress = '0x504c52723C8B981feeCD49dAb52D2c555ec33474'; //need to pin or multiple times copy
-
-// Setup Web3 and provider
+// Setup Web3 and contract instance
 const web3 = new Web3('http://127.0.0.1:8545');
-
 const contractInstance = new web3.eth.Contract(abi, contractAddress);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('src'));
 
-// Serve form.html at root
+// Serve the HTML form
 app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'form.html'));
-  });
-  
+});
 
 app.post('/submit', async (req, res) => {
     try {
         const { name, email, nid } = req.body;
+
+        // Hash name + NID using SHA-256
         const token = crypto.createHash('sha256').update(name + nid).digest('hex');
 
         const accounts = await web3.eth.getAccounts();
 
-        // Send transaction to storeToken function
-        const receipt = await contractInstance.methods.storeToken(token).send({ from: accounts[0], gas: 300000 });
+        // Send transaction to blockchain
+        const receipt = await contractInstance.methods.storeToken(token).send({
+            from: accounts[0],
+            gas: 300000,
+        });
 
+        // Return confirmation to user
         res.send(`<h3>Data submitted securely!<br/>Token: ${token}<br/>Transaction Hash: ${receipt.transactionHash}</h3>`);
     } catch (err) {
         console.error(err);
@@ -46,5 +49,5 @@ app.post('/submit', async (req, res) => {
 });
 
 app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+    console.log('Server running on http://localhost:3000');
 });
