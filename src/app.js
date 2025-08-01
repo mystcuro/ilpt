@@ -18,6 +18,7 @@ const web3 = new Web3('http://127.0.0.1:8545');
 const contractInstance = new web3.eth.Contract(abi, contractAddress);
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()); // Route 2 parser enabled
 app.use(express.static('src'));
 
 // Serve the HTML form
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'form.html'));
 });
 
+// Route 1: Collect & Submit token to Blockchain
 app.post('/submit', async (req, res) => {
     try {
         // Hashed name + NID using SHA-256 from Client 
@@ -39,11 +41,26 @@ app.post('/submit', async (req, res) => {
 
         // Return confirmation to user
         res.send(`<h3>Data submitted securely!<br/>Token: ${token}<br/>Transaction Hash: ${receipt.transactionHash}</h3>`);
+        console.log("Storing Token:", token);
     } catch (err) {
         console.error(err);
         res.status(500).send('Error storing token on blockchain.');
     }
 });
+
+// Route 2: Verify the Submission
+app.post('/verify', async (req, res) => {
+    try {
+        const { token } = req.body;
+        const exists = await contractInstance.methods.checkToken(token).call();
+        res.json({ exists });
+        console.log("Verifying Token:", token);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error verifying token.' });
+    }
+});
+
 
 app.listen(3000, () => {
     console.log('Server running on http://localhost:3000');

@@ -1,0 +1,20 @@
+<!-- src/verify.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verify Token</title>
+  <script src="verify.js" defer></script>
+</head>
+<body>
+  <h2>Verify Your Submission</h2>
+  <form id="verifyForm">
+    <label for="token">Enter Your Token (SHA-256):</label><br/>
+    <input type="text" id="token" name="token" required style="width: 400px;"/><br/><br/>
+    <button type="submit">Verify</button>
+  </form>
+
+  <div id="result" style="margin-top: 20px;"></div>
+</body>
+</html>
