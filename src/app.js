@@ -61,6 +61,34 @@ app.post('/verify', async (req, res) => {
     }
 });
 
+// Test route for Entries
+app.get('/entries', async (req, res) => {
+    try {
+      const total = await contractInstance.methods.getTotalEntries().call();
+      const totalEntries = Number(total); // Converting BigInt to Number
+      const entries = [];
+  
+      for (let i = 0; i < totalEntries; i++) {
+        const entry = await contractInstance.methods.getEntry(i).call();
+        entries.push({
+          token: entry[0],
+          timestamp: Number(entry[1])  // Converting BigInt to Number
+        });
+      }
+  
+      res.json(entries);
+    } catch (err) {
+      console.error("Error fetching entries:", err);
+      res.status(500).send("Failed to fetch entries.");
+    }
+  });
+  
+
+// Route 3: Audit Trail
+app.get('/audit', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'audit.html'));
+  });
+  
 
 app.listen(3000, () => {
     console.log('Server running on http://localhost:3000');
