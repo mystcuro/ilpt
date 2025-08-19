@@ -1,3 +1,5 @@
+import { SECRET_SALT } from './config.js';
+
 async function sha256(message) {
     const encoder = new TextEncoder();
     const data = encoder.encode(message);
@@ -7,6 +9,12 @@ async function sha256(message) {
       .join('');
   }
   
+async function tokenize(name, nid) {
+    const dataToHash = name + nid + SECRET_SALT; 
+    const token = await sha256(dataToHash);
+    return token;
+}
+
   document.getElementById('piiForm').addEventListener('submit', async function (e) {
     e.preventDefault();
   
@@ -14,7 +22,7 @@ async function sha256(message) {
     const email = document.getElementById('email').value;
     const nid = document.getElementById('nid').value;
   
-    const token = await sha256(name + nid); // Hashing PII client-side
+    const token = await tokenize(name + nid); // Hashing PII client-side
   
     const response = await fetch('/submit', {
       method: 'POST',
