@@ -32,16 +32,19 @@ app.post('/submit', async (req, res) => {
         // Hashed name + NID using SHA-256 from Client 
         const { token } = req.body;
 
+        // Prefix for web3.js
+        const hexToken = token.startsWith('0x') ? token : '0x' + token;
+
         // Send transaction to blockchain
         const accounts = await web3.eth.getAccounts();
-        const receipt = await contractInstance.methods.storeToken(token).send({
+        const receipt = await contractInstance.methods.storeToken(hexToken).send({
             from: accounts[0],
             gas: 300000,
         });
 
         // Return confirmation to user
-        res.send(`<h3>Data submitted securely!<br/>Token: ${token}<br/>Transaction Hash: ${receipt.transactionHash}</h3>`);
-        console.log("Storing Token:", token);
+        res.send(`<h3>Data submitted securely!<br/>Token: ${hexToken}<br/>Transaction Hash: ${receipt.transactionHash}</h3>`);
+        console.log("Storing Token:", hexToken);
     } catch (err) {
         console.error(err);
         res.status(500).send('Error storing token on blockchain.');

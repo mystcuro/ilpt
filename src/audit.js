@@ -6,10 +6,12 @@ window.onload = async () => {
       const list = document.getElementById('entriesList');
   
       entries.forEach(entry => {
-        const li = document.createElement('li');
+        const tr = document.createElement('tr'); //
         const readableTime = new Date(entry.timestamp * 1000).toLocaleString();
-        li.textContent = `Token: ${entry.token} | Timestamp: ${readableTime}`;
-        list.appendChild(li);
+
+        //li.textContent = `Token: ${entry.token} | Timestamp: ${readableTime}`;
+        tr.innerHTML = `<td class="px-4 py-2 border font-mono text-sm">${entry.token}</td> <td class="px-4 py-2 border">${readableTime}</td>`;
+        list.appendChild(tr);
       });
     } catch (err) {
       console.error('Error loading audit entries:', err);

@@ -2,17 +2,17 @@ pragma solidity ^0.8.21;
 
 contract TokenStorage {
     struct Entry {
-        string token;
+        bytes32 token;
         uint timestamp;
     }
 
     Entry[] public entries;
 
-    mapping(string => bool) private storedTokens;
+    mapping(bytes32 => bool) private storedTokens;
 
-    event EntryStored(string token, uint timestamp);
+    event EntryStored(bytes32 token, uint timestamp);
 
-    function storeToken(string memory _token) public {
+    function storeToken(bytes32 _token) public {
         require(!storedTokens[_token], "Token already exists");
 
         entries.push(Entry(_token, block.timestamp));
@@ -21,11 +21,11 @@ contract TokenStorage {
         emit EntryStored(_token, block.timestamp);
     }
 
-    function checkToken(string memory _token) public view returns (bool) {
+    function checkToken(bytes32 _token) public view returns (bool) {
         return storedTokens[_token];
     }
 
-    function getEntry(uint index) public view returns (string memory, uint) {
+    function getEntry(uint index) public view returns (bytes32, uint) {
         require(index < entries.length, "Index out of bounds");
         return (entries[index].token, entries[index].timestamp);
     }
