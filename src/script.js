@@ -19,7 +19,7 @@ async function tokenize(name, nid) {
     e.preventDefault();
   
     const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
+    const submission_message = document.getElementById('message').value;
     const nid = document.getElementById('nid').value;
   
     const token = await tokenize(name + nid); // Hashing PII client-side

@@ -1,14 +1,14 @@
 {
-  "address": "0xad8dA3a6C3B3B7E9139f062f2d1E23f1A54c2a17",
+  "address": "0x77a0A9a92d9048De8757db694b6bAfCCeCB4D521",
   "abi": [
     {
       "anonymous": false,
       "inputs": [
         {
           "indexed": false,
-          "internalType": "string",
+          "internalType": "bytes32",
           "name": "token",
-          "type": "string"
+          "type": "bytes32"
         },
         {
           "indexed": false,
@@ -19,7 +19,7 @@
       ],
       "name": "EntryStored",
       "type": "event",
-      "signature": "0x4f45407dcc2c60f31260ff4d9d7f8dc1447ed326e17c2c45cf9337f55164d8ec"
+      "signature": "0x597bbd130fe79e864a914fe2cdbfde49e03c8e1cb94dae7e69d0f79f2e471fb9"
     },
     {
       "inputs": [
@@ -32,9 +32,9 @@
       "name": "entries",
       "outputs": [
         {
-          "internalType": "string",
+          "internalType": "bytes32",
           "name": "token",
-          "type": "string"
+          "type": "bytes32"
         },
         {
           "internalType": "uint256",
@@ -50,23 +50,23 @@
     {
       "inputs": [
         {
-          "internalType": "string",
+          "internalType": "bytes32",
           "name": "_token",
-          "type": "string"
+          "type": "bytes32"
         }
       ],
       "name": "storeToken",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function",
-      "signature": "0x83102c41"
+      "signature": "0xedc9a085"
     },
     {
       "inputs": [
         {
-          "internalType": "string",
+          "internalType": "bytes32",
           "name": "_token",
-          "type": "string"
+          "type": "bytes32"
         }
       ],
       "name": "checkToken",
@@ -80,7 +80,7 @@
       "stateMutability": "view",
       "type": "function",
       "constant": true,
-      "signature": "0x93161d72"
+      "signature": "0x6630e813"
     },
     {
       "inputs": [
@@ -93,9 +93,9 @@
       "name": "getEntry",
       "outputs": [
         {
-          "internalType": "string",
+          "internalType": "bytes32",
           "name": "",
-          "type": "string"
+          "type": "bytes32"
         },
         {
           "internalType": "uint256",
