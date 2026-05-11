@@ -1,5 +1,7 @@
 # A Blockchain Driven Secure Privacy Enforcement System for Personally Identifiable Information at the Pre-Transit Phase in Web Systems
 
+*The implementation for Publication in Springer Nature Lecture Notes in Network and Systems(LNNS) book series. **(in press)**
+
 This project implements a **blockchain-based privacy enforcement framework** for securing Personally Identifiable Information (PII) at the point of capture in web interfaces. The system hashes sensitive data using **SHA-256** and stores it immutably on a **Solidity smart contract** deployed via **Web3.js** and **Ganache**.
 
 ## 🔐 Use Case
